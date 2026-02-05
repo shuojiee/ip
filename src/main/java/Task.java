@@ -26,4 +26,12 @@ public class Task {
     public String getStatusIcon() {
         return (this.isDone) ? "[X]" : "[ ]";
     }
+
+    public String getTaskIcon() {
+        return "[ ]";
+    }
+
+    public void printTask() {
+        System.out.print("        " + this.getTaskIcon() + this.getStatusIcon() + " " + this.getDescription());
+    }
 }
