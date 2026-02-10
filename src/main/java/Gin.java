@@ -1,4 +1,9 @@
 import java.util.Scanner;
+import gin.exception.GinException;
+import gin.task.Deadline;
+import gin.task.Event;
+import gin.task.Task;
+import gin.task.ToDo;
 
 public class Gin {
     private static final String HORIZONTAL_LINE = "_".repeat(60);
@@ -18,42 +23,47 @@ public class Gin {
             String userInput = scanner.nextLine().trim();
             String command = userInput.split(" ")[0];
 
-            switch (command) {
-            case "bye":
+            try {
+                switch (command) {
+                case "bye":
+                    System.out.println(HORIZONTAL_LINE);
+                    System.out.println("    Bye. Hope to see you again soon!");
+                    System.out.println(HORIZONTAL_LINE);
+                    scanner.close();
+                    return;
+                case "list":
+                    listTasks();
+                    break;
+                case "mark":
+                    markTask(userInput, true);
+                    break;
+                case "unmark":
+                    markTask(userInput, false);
+                    break;
+                case "todo":
+                case "deadline":
+                case "event":
+                    addTask(userInput);
+                    break;
+                default:
+                    System.out.println(HORIZONTAL_LINE);
+                    System.out.println("    Please input a valid command of the form [action] [description].");
+                    System.out.println(HORIZONTAL_LINE);
+                    break;
+                }
+            } catch (GinException e) {
                 System.out.println(HORIZONTAL_LINE);
-                System.out.println("    Bye. Hope to see you again soon!");
+                System.out.println("    " + e.getMessage());
                 System.out.println(HORIZONTAL_LINE);
-                scanner.close();
-                return;
-            case "list":
-                listTasks();
-                break;
-            case "mark":
-                markTask(userInput, true);
-                break;
-            case "unmark":
-                markTask(userInput, false);
-                break;
-            case "todo":
-            case "deadline":
-            case "event":
-                addTask(userInput);
-                break;
-            default:
-                System.out.println("Please input a valid command of the form [action] [description].");
-                break;
             }
         }
     }
 
-    private static void addTask(String userInput) {
+    private static void addTask(String userInput) throws GinException {
         String[] parts = userInput.split(" ", 2);
 
-        if (parts.length < 2) {
-            System.out.println(HORIZONTAL_LINE);
-            System.out.println("Task description cannot be empty.");
-            System.out.println(HORIZONTAL_LINE);
-            return;
+        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+            throw new GinException("    The description of a task cannot be empty!");
         }
 
         String command = parts[0];
@@ -70,7 +80,7 @@ public class Gin {
             addEvent(description);
             break;
         default:
-            System.out.println("Please input a valid command of the form: [task type] [description].");
+            System.out.println("    Please input a valid command of the form: [task type] [description].");
             break;
         }
     }
@@ -88,13 +98,11 @@ public class Gin {
         System.out.println(HORIZONTAL_LINE);
     }
 
-    private static void addDeadline(String description) {
+    private static void addDeadline(String description) throws GinException {
         String[] deadlineParts = description.split(" /by ", 2);
+
         if (deadlineParts.length < 2) {
-            System.out.println(HORIZONTAL_LINE);
-            System.out.println("    Deadline format should be: deadline [description] /by [time]");
-            System.out.println(HORIZONTAL_LINE);
-            return;
+            throw new GinException("    gin.task.Deadline cannot be empty!");
         }
 
         String deadlineDescription = deadlineParts[0];
@@ -112,21 +120,15 @@ public class Gin {
         System.out.println(HORIZONTAL_LINE);
     }
 
-    private static void addEvent(String description) {
+    private static void addEvent(String description) throws GinException {
         String[] eventParts = description.split(" /from ", 2);
         if (eventParts.length < 2) {
-            System.out.println(HORIZONTAL_LINE);
-            System.out.println("    Event format should be: event [description] /from [start time] /to [end time]");
-            System.out.println(HORIZONTAL_LINE);
-            return;
+            throw new GinException("    gin.task.Event input must contain both the description and times!");
         }
 
         String[] eventTimeParts = eventParts[1].split(" /to ", 2);
         if (eventTimeParts.length < 2) {
-            System.out.println(HORIZONTAL_LINE);
-            System.out.println("    Event format should be: event [description] /from [start time] /to [end time]");
-            System.out.println(HORIZONTAL_LINE);
-            return;
+            throw new GinException("    gin.task.Event input must contain both the start time and end time!");
         }
 
         String eventDescription = eventParts[0];
@@ -148,7 +150,7 @@ public class Gin {
     private static void listTasks() {
         if (taskCount <= 0) {
             System.out.println(HORIZONTAL_LINE);
-            System.out.println("    list is empty.");
+            System.out.println("    List is empty.");
             System.out.println(HORIZONTAL_LINE);
         } else {
             System.out.println(HORIZONTAL_LINE);
