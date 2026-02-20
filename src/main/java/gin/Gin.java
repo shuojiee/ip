@@ -47,6 +47,9 @@ public class Gin {
                 case "event":
                     addTask(userInput);
                     break;
+                case "delete":
+                    deleteTask(userInput);
+                    break;
                 default:
                     System.out.println(HORIZONTAL_LINE);
                     System.out.println("    Please input a valid command of the form [action] [description].");
@@ -145,6 +148,34 @@ public class Gin {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("    Got it. I've added this task:");
         newTask.printTask();
+        System.out.println("    Now you have " + taskCount + " tasks in the list.");
+        System.out.println(HORIZONTAL_LINE);
+    }
+
+    private static void deleteTask(String userInput) throws GinException {
+        String[] parts = userInput.split(" ");
+        if (parts.length < 2) {
+            throw new GinException("    Please specify a task number to delete.");
+        }
+
+        int taskIndex = Integer.parseInt(parts[1]);
+
+        if (taskIndex <= 0 || taskIndex > taskCount) {
+            throw new GinException("    Please input a valid task number.");
+        }
+
+        Task removedTask = tasks[taskIndex - 1];
+
+        for (int i = taskIndex - 1; i < taskCount - 1; i++) {
+            tasks[i] = tasks[i + 1];
+        }
+        tasks[taskCount - 1]= null;
+        taskCount--;
+
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println("    Noted, I've removed this task:");
+        System.out.println("        ");
+        removedTask.printTask();
         System.out.println("    Now you have " + taskCount + " tasks in the list.");
         System.out.println(HORIZONTAL_LINE);
     }
