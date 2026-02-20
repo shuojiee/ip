@@ -1,5 +1,6 @@
 package gin;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import gin.exception.GinException;
 import gin.task.Deadline;
@@ -11,7 +12,7 @@ public class Gin {
     private static final String HORIZONTAL_LINE = "_".repeat(60);
     private static final int MAX_NUMBER_OF_TASKS = 100;
 
-    private static final Task[] tasks = new Task[MAX_NUMBER_OF_TASKS];
+    private static final ArrayList<Task> tasks = new Task[MAX_NUMBER_OF_TASKS];
     private static int taskCount = 0;
 
     public static void main(String[] args) {
