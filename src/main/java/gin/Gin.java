@@ -1,3 +1,5 @@
+package gin;
+
 import java.util.Scanner;
 import gin.exception.GinException;
 import gin.task.Deadline;
