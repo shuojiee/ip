@@ -36,4 +36,8 @@ public class Task {
     public void printTask() {
         System.out.print("        " + this.getTaskIcon() + this.getStatusIcon() + " " + this.getDescription());
     }
+
+    public String toFileString() {
+        return "? | " + (getStatus() ? "1" : "0") + " | " + description;
+    }
 }

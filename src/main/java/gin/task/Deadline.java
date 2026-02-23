@@ -21,8 +21,14 @@ public class Deadline extends Task {
         return "[D]";
     }
 
+    @Override
     public void printTask() {
         super.printTask();
         System.out.println(" " + this.getBy());
+    }
+
+    @Override
+    public String toFileString() {
+        return "T | " + (getStatus() ? "1" : "0") + " | " + getDescription() + " | " + by;
     }
 }

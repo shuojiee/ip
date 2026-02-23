@@ -24,8 +24,14 @@ public class Event extends Task {
         return "[E]";
     }
 
+    @Override
     public void printTask() {
         super.printTask();
         System.out.println(" " + this.getTime());
+    }
+
+    @Override
+    public String toFileString() {
+        return "E | " + (getStatus() ? "1" : "0") + " | " + getDescription() + " | " + from + " | " + to;
     }
 }

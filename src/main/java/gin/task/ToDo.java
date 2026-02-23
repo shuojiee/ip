@@ -10,8 +10,14 @@ public class ToDo extends Task {
         return "[T]";
     }
 
+    @Override
     public void printTask() {
         super.printTask();
         System.out.println();
+    }
+
+    @Override
+    public String toFileString() {
+        return "T | " + (getStatus() ? "1" : "0") + " | " + getDescription();
     }
 }
