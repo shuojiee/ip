@@ -4,7 +4,19 @@ import gin.command.*;
 import gin.exception.GinException;
 import gin.task.*;
 
+/**
+ * Parses raw user input strings into executable {@link Command} objects.
+ */
 public class Parser {
+
+    /**
+     * Parses the given user input and returns the corresponding command.
+     *
+     * @param userInput the raw string entered by the user
+     * @return a {@link Command} matching the user's intent
+     * @throws GinException if the input is not a recognised command,
+     *                      is missing required arguments, or has a malformed format
+     */
     public static Command parse(String userInput) throws GinException {
         String[] parts = userInput.split(" ", 2);
         String command = parts[0];
@@ -90,6 +102,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a 1-based task index string into a 0-based integer index.
+     *
+     * @param argument the string to parse as an integer
+     * @return the 0-based index
+     * @throws GinException if the argument is not a valid integer
+     */
     public static int parseIndex(String argument) throws GinException {
         try {
             return Integer.parseInt(argument) - 1;
