@@ -29,6 +29,6 @@ public class Deadline extends Task {
 
     @Override
     public String toFileString() {
-        return "T | " + (getStatus() ? "1" : "0") + " | " + getDescription() + " | " + by;
+        return "D | " + (getStatus() ? "1" : "0") + " | " + getDescription() + " | " + by;
     }
 }

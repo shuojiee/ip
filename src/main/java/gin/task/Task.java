@@ -30,7 +30,7 @@ public class Task {
     }
 
     public String getTaskIcon() {
-        return "[ ]";
+        return "[?]";
     }
 
     public void printTask() {

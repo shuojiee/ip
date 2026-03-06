@@ -5,10 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import gin.task.Task;
-import gin.task.Deadline;
-import gin.task.Event;
-import gin.task.ToDo;
+import gin.task.*;
 
 public class Storage {
     private final String filePath;
@@ -20,6 +17,13 @@ public class Storage {
     public ArrayList<Task> loadTasks() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         File f = new File(filePath);
+
+        if (!f.exists()) {
+            f.getParentFile().mkdirs();
+            f.createNewFile();
+            return tasks;
+        }
+
         Scanner s = new Scanner(f);
         while (s.hasNext()) {
             String userInput = s.nextLine();
@@ -29,9 +33,10 @@ public class Storage {
         return tasks;
     }
 
-    public void saveList(ArrayList<Task> tasks) throws IOException {
+    public void saveList(TaskList tasks) throws IOException {
         FileWriter fw = new FileWriter(filePath);
-        for (Task task : tasks) {
+        for (int i = 0; i < tasks.getSize(); i++) {
+            Task task = tasks.getTask(i);
             fw.write(task.toFileString() + System.lineSeparator());
         }
         fw.close();
@@ -49,10 +54,14 @@ public class Storage {
             task = new ToDo(description);
             break;
         case "D":
-            task = new Deadline(description, parts[3]);
+            if (parts.length >= 4) {
+                task = new Deadline(description, parts[3]);
+            }
             break;
         case "E":
-            task = new Event(description, parts[3], parts[4]);
+            if (parts.length >= 5) {
+                task = new Event(description, parts[3], parts[4]);
+            }
             break;
         default:
             break;
