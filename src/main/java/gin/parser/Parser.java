@@ -79,6 +79,12 @@ public class Parser {
             int index = parseIndex(parts[1]);
             return new MarkCommand(index, false);
         }
+        case "find": {
+            if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                throw new GinException("    The search keyword cannot be empty.");
+            }
+            return new FindCommand(parts[1].trim());
+        }
         default:
             throw new GinException("    Please input a valid command.");
         }
