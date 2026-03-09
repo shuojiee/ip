@@ -8,10 +8,10 @@ Type commands to add, view, find, and organise your to-do list — Gin handles t
 ## Quick Start
 
 1. Ensure you have Java 17 or above installed.
-2. Download the latest `gin.jar` from the releases page.
+2. Download the latest `ip.jar` from the releases page.
 3. Run the application:
    ```
-   java -jar gin.jar
+   java -jar ip.jar
    ```
 4. Type a command to get started. Try `todo read book`.
 
